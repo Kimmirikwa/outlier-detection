@@ -59,4 +59,6 @@ print(house_prices_copy[scoring_features].describe()) # values range from '0' to
 # 	scatter_plot(house_prices_copy[scoring_feature], house_prices_copy['rental_price'])
 
 # SCORING the zones
-assign_scores(house_prices_copy[['zone'] + scoring_features])
+#scored = assign_scores(house_prices_copy[['zone'] + scoring_features])
+assign_scores(house_prices_copy)
+print(house_prices_copy.head())
