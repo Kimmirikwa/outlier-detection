@@ -77,7 +77,7 @@ for feature in training_features:
 train_data = house_prices_copy[training_features]
 
 clf = IsolationForest(behaviour='new', max_samples=100,
-                      random_state=rng, contamination=0.04)
+                      random_state=rng, contamination=0.05)
 
 clf.fit(train_data)
 y_pred = clf.predict(train_data)
