@@ -70,9 +70,10 @@ assign_scores(house_prices_copy)
 # we will only use the required features i.e 'zone_ranking', 'house_type_code' and 'total_area'
 training_features = ['zone_rank', 'house_type_code', 'total_area']
 
-data_to_plot = house_prices_copy.sample(n=500)
-for feature in training_features:
-	scatter_plot(data_to_plot[feature], data_to_plot['rental_price'], feature)
+# data_to_plot = house_prices_copy.sample(n=500)
+# for feature in training_features:
+# 	scatter_plot(data_to_plot[feature], data_to_plot['rental_price'], feature)
+scatter_plot(house_prices_copy, training_features[0], training_features[1], training_features[2])
 
 train_data = house_prices_copy[training_features]
 
