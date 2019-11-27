@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.ensemble import IsolationForest
+from scipy import stats
 
 from plotting_utils import scatter_plot
 from utils import assign_scores
@@ -67,12 +68,19 @@ assign_scores(house_prices_copy)
 # Now we are ready to model
 # using IsolationForest to detect outliers
 # we will only use the required features i.e 'zone_ranking', 'house_type_code' and 'total_area'
-train_data = house_prices_copy[['zone_rank', 'house_type_code', 'total_area']]
+training_features = ['zone_rank', 'house_type_code', 'total_area']
+
+data_to_plot = house_prices_copy.sample(n=500)
+for feature in training_features:
+	scatter_plot(data_to_plot[feature], data_to_plot['rental_price'], feature)
+
+train_data = house_prices_copy[training_features]
 
 clf = IsolationForest(behaviour='new', max_samples=100,
-                      random_state=rng, contamination='auto')
+                      random_state=rng, contamination=0.04)
 
 clf.fit(train_data)
 y_pred = clf.predict(train_data)
 outliers = house_prices[y_pred == -1]
+print(len(outliers))
 outliers.to_csv('output/outliers.csv', index=False)
