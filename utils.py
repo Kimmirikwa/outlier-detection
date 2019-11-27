@@ -13,6 +13,8 @@ def get_zone_scores(df, by):
 	grouped_df['score'] = grouped_df.apply(lambda row: get_score(row), axis=1)
 	grouped_df.sort_values('score', ascending=False, inplace=True)
 
+	grouped_df.to_csv('output/scored_zones.csv')
+
 	print(grouped_df)
 
 	return grouped_df
