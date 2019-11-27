@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 
 from plotting_utils import scatter_plot
+from constants import scoring_features, house_type
 
 house_prices = pd.read_csv('data/house_prices.csv')
 
@@ -20,8 +21,6 @@ house_prices_copy = house_prices.copy(deep=True)
 # to be used in scoring zones.
 # 'house_type' need to be numerical to be used in our model 
 print(house_prices_copy.info()) # 10010 rows and 10 columns
-scoring_features = ['security_level', 'air_quality_index', 'num_key_amenities']
-house_type = ['house_type']
 analysis_features = house_type + scoring_features
 print(house_prices_copy[ scoring_features].describe())
 
@@ -55,3 +54,7 @@ house_prices_copy['house_type_code'] = encoder.fit_transform(house_prices_copy['
 print(house_prices_copy[scoring_features + ['house_type_code']].info())  # all features are numerical
 print(house_prices_copy[scoring_features].describe()) # values range from '0' to '1'
 
+# for scoring_feature in scoring_features:
+# 	scatter_plot(house_prices_copy[scoring_feature], house_prices_copy['rental_price'])
+
+# SCORING the zones
