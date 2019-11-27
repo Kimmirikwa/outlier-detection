@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 
+from plotting_utils import scatter_plot
+
 house_prices = pd.read_csv('data/house_prices.csv')
 
 # columns of the data
