@@ -15,13 +15,15 @@ def get_zone_scores(df, by):
 
 	grouped_df[['score']].to_csv('output/scored_zones.csv')
 
-	return grouped_df
+	return grouped_df.reset_index()  # will enable us get the rank of zone
 
 def assign_score(row, scored_zones):
-	zone_score = scored_zones.loc[row['zone']]
-	return zone_score['score']
+	rank = scored_zones.index[scored_zones['zone'] == row['zone']].tolist()[0] + 1
+	return rank
 
 def assign_scores(df, score_by='zone'):
 	scored_zones = get_zone_scores(df, score_by)
 
-	df['score'] = df.apply(lambda row: assign_score(row, scored_zones), axis=1)
+	#scored_zones = scored_zones.reset_index()
+
+	df['zone_rank'] = df.apply(lambda row: assign_score(row, scored_zones), axis=1)

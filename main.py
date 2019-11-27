@@ -58,7 +58,10 @@ print(house_prices_copy[scoring_features].describe()) # values range from '0' to
 # for scoring_feature in scoring_features:
 # 	scatter_plot(house_prices_copy[scoring_feature], house_prices_copy['rental_price'])
 
-# SCORING the zones
-#scored = assign_scores(house_prices_copy[['zone'] + scoring_features])
+# SCORING the zones and assigning score to each example based on the score of the zone
 assign_scores(house_prices_copy)
-print(house_prices_copy.head())
+
+# Now we are ready to model
+# using IsolationForest to detect outliers
+# we will only use the required features i.e 'zone_ranking', 'house_type_code' and 'total_area'
+
