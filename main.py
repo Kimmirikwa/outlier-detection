@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 
 from plotting_utils import scatter_plot
+from utils import assign_scores
 from constants import scoring_features, house_type
 
 house_prices = pd.read_csv('data/house_prices.csv')
@@ -58,3 +59,4 @@ print(house_prices_copy[scoring_features].describe()) # values range from '0' to
 # 	scatter_plot(house_prices_copy[scoring_feature], house_prices_copy['rental_price'])
 
 # SCORING the zones
+assign_scores(house_prices_copy[['zone'] + scoring_features])
