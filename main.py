@@ -76,8 +76,6 @@ assign_scores(house_prices_copy)
 # we will only use the required features i.e 'zone_ranking', 'house_type_ordinal' and 'total_area'
 training_features = ['zone_rank', 'house_type_ordinal', 'total_area']
 
-scatter_plot(house_prices_copy, training_features[0], training_features[1], training_features[2])
-
 train_data = house_prices_copy[training_features]
 
 clf = IsolationForest(behaviour='new', max_samples=100,
@@ -85,9 +83,11 @@ clf = IsolationForest(behaviour='new', max_samples=100,
 
 clf.fit(train_data)
 pred = clf.predict(train_data)
-outlier = pred == -1
-house_prices_copy['outlier'] = outlier
-outliers = house_prices[pred == -1]
-house_prices['outlier'] = outlier
-print(len(outliers))
+outliers = pred == -1
+house_prices_copy['outlier'] = outliers
+sampled = house_prices_copy.sample(1000)
+scatter_plot(sampled, training_features[0], training_features[1], training_features[2])
+house_prices_copy_with_o = house_prices_copy.loc[house_prices_copy['outlier'] == True]
+outlier_index=list(house_prices_copy_with_o.index)
+house_prices['outlier'] = outliers
 house_prices.to_csv('output/house_prices_with_outliers.csv', index=False)

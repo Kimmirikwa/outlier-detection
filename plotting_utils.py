@@ -6,12 +6,19 @@ def scatter_plot(df, x, y, z):
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
 
-	sampled_df = df.sample(n=100)
+	inliers = df[df['outlier'] == False]
+	outliers = df[df['outlier'] == True]
 
-	ax.scatter(sampled_df[x], sampled_df[y], sampled_df[z], marker='o')
+	ax.scatter(inliers[x], inliers[y], inliers[z], marker='o',
+		label="inliers", c="green")
+
+	ax.scatter(outliers[x], outliers[y], outliers[z], marker='x',
+		label="outliers", c="red")
 
 	ax.set_xlabel(x)
 	ax.set_ylabel(y)
 	ax.set_zlabel(z)
-	ax.set_title('scatter plot of sampled data')
+	ax.set_title('sampled inliers and outliers')
+	ax.legend()
+	
 	plt.show()
