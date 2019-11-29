@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import IsolationForest
 from scipy import stats
 
@@ -52,11 +52,17 @@ scaler = MinMaxScaler()
 house_prices_copy[scoring_features] = scaler.fit_transform(house_prices_copy[scoring_features])
 # we now encode the 'house_type' to have values between '0' and '3' as our
 # learning model works with numericals only
-encoder = LabelEncoder()
-house_prices_copy['house_type_code'] = encoder.fit_transform(house_prices_copy['house_type'])
+# we get ordinal values of the house types. I have ranked the house types in the following way:
+# 'SRU': 0, 'APT': 1, 'MSNT': 2, 'BLW': 3. The higher the value, the 'better' the house type
+# IsolationForest require categorical values to be encoded this way
+cat = pd.Categorical(house_prices_copy['house_type'], 
+                    categories=['SRU', 'APT', 'MSNT', 'BLW'],
+                    ordered=True)
+labels, unique = pd.factorize(cat, sort=True)
+house_prices_copy['house_type_ordinal'] = labels
 
 # double checking to ensure our data is OK
-print(house_prices_copy[scoring_features + ['house_type_code']].info())  # all features are numerical
+print(house_prices_copy[scoring_features + ['house_type_ordinal']].info())  # all features are numerical
 print(house_prices_copy[scoring_features].describe()) # values range from '0' to '1'
 
 # for scoring_feature in scoring_features:
@@ -67,8 +73,8 @@ assign_scores(house_prices_copy)
 
 # Now we are ready to model
 # using IsolationForest to detect outliers
-# we will only use the required features i.e 'zone_ranking', 'house_type_code' and 'total_area'
-training_features = ['zone_rank', 'house_type_code', 'total_area']
+# we will only use the required features i.e 'zone_ranking', 'house_type_ordinal' and 'total_area'
+training_features = ['zone_rank', 'house_type_ordinal', 'total_area']
 
 # data_to_plot = house_prices_copy.sample(n=500)
 # for feature in training_features:
