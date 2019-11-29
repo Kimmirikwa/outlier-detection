@@ -72,22 +72,31 @@ print(house_prices_copy[scoring_features].describe()) # values range from '0' to
 assign_scores(house_prices_copy)
 
 # Now we are ready to model
-# using IsolationForest to detect outliers
+# since there is no information about outliers in the dataset, I have selected unsupervised learning model
+# using IsolationForest to detect outliers, which 'isolates' outliers since outliers are always 'few and different'
 # we will only use the required features i.e 'zone_ranking', 'house_type_ordinal' and 'total_area'
 training_features = ['zone_rank', 'house_type_ordinal', 'total_area']
 
 train_data = house_prices_copy[training_features]
 
+# the training model
+# detecting 5% of data to be outliers. I have only assumed this but I should have investigated the best
+# value to use
 clf = IsolationForest(behaviour='new', max_samples=100,
                       random_state=rng, contamination=0.05)
 
+# fit the model and use it to detect outliers
 clf.fit(train_data)
 pred = clf.predict(train_data)
+
+# outliers predicted as '-1' and inliers as '1', but want 'True' and 'False' for presentation
 outliers = pred == -1
 house_prices_copy['outlier'] = outliers
+
+# a scatter plot of a few data points marked as outliers and inliers
 sampled = house_prices_copy.sample(1000)
 scatter_plot(sampled, training_features[0], training_features[1], training_features[2])
-house_prices_copy_with_o = house_prices_copy.loc[house_prices_copy['outlier'] == True]
-outlier_index=list(house_prices_copy_with_o.index)
+
+# add the outlier column to the original data and create a csv file
 house_prices['outlier'] = outliers
 house_prices.to_csv('output/house_prices_with_outliers.csv', index=False)
