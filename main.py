@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import IsolationForest
-from scipy import stats
 
 from plotting_utils import scatter_plot
 from utils import assign_scores
@@ -82,7 +81,7 @@ train_data = house_prices_copy[training_features]
 # the training model
 # detecting 5% of data to be outliers. I have only assumed this but I should have investigated the best
 # value to use
-clf = IsolationForest(behaviour='new', max_samples=100,
+clf = IsolationForest(behaviour='new', n_estimators=50, max_samples=100,
                       random_state=rng, contamination=0.05)
 
 # fit the model and use it to detect outliers
