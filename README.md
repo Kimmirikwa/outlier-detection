@@ -5,11 +5,11 @@ Only 3 features are used in detecting outliers. These are ```zone_rank```, ```ho
 ```house_type_ordinal``` is outained be encoding the house type codes ordinally.
 I have used an ```IsolationForest``` model of sklearn. This works by getting the most 'different' datapoints in the dataset. The forest has 50 trees. Each tree splits data at each node by randomly selecting one of the 3 features above and then randomly selecting a value in the feature to be used in splitting the data into two subsets. Outliers are detected by taking the smallest average heights from the root node to the node where a datapoint finally end up.
 
-A few datapoints are randomly selected and plotted with outliers marked.
+A few datapoints are randomly selected and plotted with outliers marked. 
 
 The final file of of the original dataset with an outlier column added can be found at ```output/house_prices_with_outliers.csv```. ```outlier``` column values ```True``` indcate the datapoint is an outlier.
 
 To try this, run
-pip install -r requirements.txt
-apt-get install python-tk
-finally run ```main.py```
+1. pip install -r requirements.txt
+2. apt-get install python-tk
+3. run ```main.py```
