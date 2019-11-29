@@ -85,7 +85,7 @@ clf = IsolationForest(behaviour='new', max_samples=100,
 
 clf.fit(train_data)
 pred = clf.predict(train_data)
-outlier = pred == True
+outlier = pred == -1
 house_prices_copy['outlier'] = outlier
 outliers = house_prices[pred == -1]
 house_prices['outlier'] = outlier
